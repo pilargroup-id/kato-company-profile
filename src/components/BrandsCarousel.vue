@@ -184,12 +184,6 @@ onUnmounted(() => {
               <ul class="brands-card__features">
                 <li v-for="feature in item.features" :key="feature">{{ feature }}</li>
               </ul>
-              <a href="#contact" class="brands-card__link" :aria-label="'Tanyakan produk ' + item.name">
-                <span>Tanya produk</span>
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M5 12h14m-6-6 6 6-6 6" />
-                </svg>
-              </a>
             </div>
           </article>
         </div>

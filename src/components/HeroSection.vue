@@ -110,7 +110,14 @@ const heroImages = [
   --hero-gold-light: #f3dfb0;
   padding: 88px max(5.5%, calc((100vw - 1400px) / 2)) 0;
   color: var(--hero-ink);
-  background: #fafaf7;
+  background:
+    linear-gradient(
+      180deg,
+      rgb(8 30 50 / 18%) 88px,
+      rgb(8 30 50 / 6%) 180px,
+      rgb(8 30 50 / 0%) 340px
+    ),
+    #fafaf7;
 }
 .kato-hero__layout {
   display: grid;
@@ -317,9 +324,10 @@ const heroImages = [
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgb(20 79 140 / 24%),
-    rgb(20 79 140 / 8%) 55%,
-    rgb(8 43 80 / 16%)
+    rgb(8 30 50 / 70%) 0%,
+    rgb(16 63 107 / 42%) 35%,
+    rgb(16 63 107 / 14%) 70%,
+    rgb(16 63 107 / 0%) 100%
   );
   pointer-events: none;
   content: "";
