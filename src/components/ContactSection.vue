@@ -9,15 +9,6 @@ const linkGroups = [
       { name: "Facebook", detail: "KATO Factory", icon: "facebook", href: "https://www.facebook.com/profile.php?id=61591586348161" },
     ],
   },
-  {
-    title: "Official Shop",
-    id: "contact-shops",
-    links: [
-      { name: "Shopee", detail: "katofactory", icon: "shopee", href: "https://shopee.co.id/katofactory" },
-      { name: "Tokopedia", detail: "kato-factory", icon: "tokopedia", href: "https://www.tokopedia.com/kato-factory" },
-      { name: "TikTok Shop", detail: "Kunjungi toko", icon: "tiktok", href: "https://vt.tiktok.com/ZSggaYhXg/?page=Mall" },
-    ],
-  },
 ];
 </script>
 
@@ -26,56 +17,21 @@ const linkGroups = [
     <div class="contact-us__inner">
       <header class="contact-us__heading">
         <div>
-
           <h2 id="contact-title">Contact Us<span aria-hidden="true">.</span></h2>
           <p class="contact-us__intro">Informasi produk, pemesanan, dan kerja sama.</p>
         </div>
-        <img
-          class="contact-us__logo"
-          src="/assets/Logo-KATO-putih.svg"
-          alt="KATO"
-          width="1350"
-          height="448"
-        />
+        <span class="contact-us__logo">
+          <img
+            src="/assets/Logo-KATO1.svg"
+            alt="KATO"
+            width="1080"
+            height="1080"
+            loading="lazy"
+          />
+        </span>
       </header>
 
       <div class="contact-us__columns">
-        <div class="contact-us__details">
-          <h3>Hubungi KATO</h3>
-          <a
-            class="contact-us__whatsapp"
-            href="https://wa.me/6281190057235"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Hubungi KATO melalui WhatsApp di 081190057235 (buka tab baru)"
-          >
-            <img class="contact-us__icon" src="/assets/platforms/whatsapp.svg" alt="" width="24" height="24" />
-            <span>
-              <span class="contact-us__label">WhatsApp</span>
-              <span class="contact-us__phone">0811 9005 7235</span>
-            </span>
-            <svg class="contact-us__arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M6 18 18 6M6 6h12v12" />
-            </svg>
-          </a>
-
-          <div class="contact-us__address">
-            <svg class="contact-us__pin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z" />
-              <circle cx="12" cy="10" r="2.5" />
-            </svg>
-            <div>
-              <span class="contact-us__label">Alamat</span>
-              <address>
-                Komplek Ruko Duta Garden<br />
-                Blok B4 No. 08–09, Kel. Jurumudi Baru,<br />
-                Kec. Benda, Kota Tangerang,<br />
-                Banten 15124
-              </address>
-            </div>
-          </div>
-        </div>
-
         <nav
           v-for="group in linkGroups"
           :key="group.id"
@@ -96,8 +52,8 @@ const linkGroups = [
                   class="contact-us__icon"
                   :src="`/assets/platforms/${link.icon}.svg`"
                   alt=""
-                  width="24"
-                  height="24"
+                  width="20"
+                  height="20"
                   loading="lazy"
                 />
                 <span class="contact-us__link-copy">
@@ -111,6 +67,22 @@ const linkGroups = [
             </li>
           </ul>
         </nav>
+
+        <div class="contact-us__details">
+          <h3>Alamat</h3>
+          <div class="contact-us__address">
+            <svg class="contact-us__pin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z" />
+              <circle cx="12" cy="10" r="2.5" />
+            </svg>
+            <address>
+              Komplek Ruko Duta Garden<br />
+              Blok B4 No. 08–09, Kel. Jurumudi Baru,<br />
+              Kec. Benda, Kota Tangerang,<br />
+              Banten 15124
+            </address>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -118,10 +90,10 @@ const linkGroups = [
 
 <style scoped>
 .contact-us {
-  padding: 88px var(--gutter) 92px;
+  padding: 32px var(--gutter, 5.5%);
   scroll-margin-top: 88px;
-  background: #081e32;
-  color: #fff;
+  background: #f4f1e9;
+  color: #35473d;
 }
 .contact-us__inner {
   max-width: 1240px;
@@ -132,137 +104,132 @@ const linkGroups = [
   align-items: center;
   justify-content: space-between;
   gap: 32px;
-  padding-bottom: 42px;
-  border-bottom: 1px solid #ffffff26;
-}
-.contact-us__eyebrow {
-  margin: 0 0 16px;
-  color: #d8a039;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.8px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #dcded4;
 }
 .contact-us h2 {
   margin: 0;
-  font: 600 clamp(42px, 4.5vw, 64px)/1.1 "Outfit", sans-serif;
-  letter-spacing: -1.8px;
+  font: 600 clamp(28px, 3vw, 36px)/1.1 "Outfit", sans-serif;
+  letter-spacing: -1px;
 }
 .contact-us h2 > span {
   color: #d8a039;
 }
 .contact-us__intro {
-  margin: 18px 0 0;
-  color: #b5c7cd;
-  font-size: 15px;
-  line-height: 1.7;
+  margin: 8px 0 0;
+  color: #626d64;
+  font-size: 13px;
+  line-height: 1.6;
 }
 .contact-us__logo {
+  position: relative;
   display: block;
   flex-shrink: 0;
-  width: 152px;
+  width: 100px;
+  aspect-ratio: 840 / 220;
+  overflow: hidden;
+}
+.contact-us__logo img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* Crop the square SVG's empty margins without stretching the artwork. */
+  width: calc(100% * 1080 / 840);
   height: auto;
+  transform: translate(-50%, -50%);
 }
 .contact-us__columns {
   display: grid;
-  grid-template-columns: 1.3fr 1fr 1fr;
-  gap: clamp(32px, 5vw, 80px);
-  padding-top: 38px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: clamp(32px, 5vw, 64px);
+  padding-top: 20px;
 }
 .contact-us__columns > * {
   min-width: 0;
 }
 .contact-us h3 {
-  margin: 0 0 15px;
-  font: 500 20px/1.4 "Outfit", sans-serif;
+  margin: 0 0 8px;
+  font: 500 16px/1.4 "Outfit", sans-serif;
 }
-.contact-us__whatsapp,
 .contact-us__link,
 .contact-us__address {
   display: flex;
   align-items: center;
-  gap: 16px;
-}
-.contact-us__whatsapp {
-  padding: 17px 0;
+  gap: 10px;
 }
 .contact-us__icon,
 .contact-us__pin {
   display: block;
-  flex: 0 0 24px;
-  width: 24px;
-  height: 24px;
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
 }
 .contact-us__icon {
   object-fit: contain;
-  filter: brightness(0) invert(1);
+  filter: brightness(0);
+  opacity: 0.72;
 }
-.contact-us__label,
-.contact-us__phone,
 .contact-us__platform,
 .contact-us__handle {
   display: block;
 }
-.contact-us__label,
 .contact-us__handle {
-  color: #b5c7cd;
-  font-size: 12px;
+  color: #626d64;
+  font-size: 11px;
   line-height: 1.5;
-}
-.contact-us__phone {
-  margin-top: 3px;
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 1.4;
-  font-variant-numeric: tabular-nums;
 }
 .contact-us__address {
   align-items: flex-start;
-  margin-top: 22px;
+  padding-top: 4px;
 }
 .contact-us__pin {
   margin-top: 2px;
-  stroke: #b5c7cd;
+  stroke: #626d64;
   stroke-width: 1.5;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 .contact-us address {
-  margin-top: 6px;
-  color: #dce5e9;
+  margin: 0;
+  color: #526157;
   font-size: 13px;
   font-style: normal;
-  line-height: 1.9;
+  line-height: 1.7;
 }
 .contact-us__links {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 300px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.contact-us__links li + li {
-  border-top: 1px solid #ffffff1a;
-}
 .contact-us__link {
-  min-height: 83px;
-  padding: 17px 0;
+  min-height: 44px;
+  padding: 4px 0;
+}
+.contact-us__links li + li {
+  border-top: 1px solid #dcded4;
 }
 .contact-us__link-copy {
   min-width: 0;
 }
 .contact-us__platform {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 500;
   line-height: 1.5;
 }
 .contact-us__handle {
-  margin-top: 3px;
+  margin-top: 2px;
   overflow-wrap: anywhere;
 }
 .contact-us__arrow {
-  flex: 0 0 17px;
-  width: 17px;
-  height: 17px;
+  flex: 0 0 14px;
+  width: 14px;
+  height: 14px;
   margin-left: auto;
-  color: #9aafb9;
+  color: #6c786e;
   stroke: currentColor;
   stroke-width: 1.5;
   stroke-linecap: round;
@@ -273,82 +240,47 @@ const linkGroups = [
   border-radius: 2px;
 }
 .contact-us a:hover .contact-us__platform,
-.contact-us a:hover .contact-us__phone,
 .contact-us a:hover .contact-us__arrow {
-  color: #e8b85d;
+  color: #856020;
 }
 .contact-us a:focus-visible {
-  outline: 2px solid #e8b85d;
+  outline: 2px solid #856020;
   outline-offset: 6px;
-}
-@media (max-width: 1000px) {
-  .contact-us__columns {
-    grid-template-columns: 1.2fr 1fr 1fr;
-    gap: 28px;
-  }
-  .contact-us__whatsapp,
-  .contact-us__link,
-  .contact-us__address {
-    gap: 12px;
-  }
-  .contact-us__phone {
-    font-size: 18px;
-  }
 }
 @media (max-width: 760px) {
   .contact-us {
-    padding: 64px 6%;
+    padding: 28px 6%;
     scroll-margin-top: 72px;
   }
   .contact-us__heading {
     align-items: flex-start;
     gap: 20px;
-    padding-bottom: 30px;
+    padding-bottom: 20px;
   }
   .contact-us__heading > div {
     min-width: 0;
   }
   .contact-us__logo {
-    width: 92px;
+    width: 80px;
     margin-top: 4px;
   }
-  .contact-us__intro {
-    font-size: 14px;
-  }
   .contact-us__columns {
-    grid-template-columns: 1fr 1fr;
-    gap: 36px 28px;
-    padding-top: 30px;
-  }
-  .contact-us__details {
-    grid-column: 1 / -1;
-  }
-  .contact-us__whatsapp {
-    max-width: 330px;
-  }
-  .contact-us__address {
-    margin-top: 15px;
+    gap: 24px;
   }
 }
 @media (max-width: 480px) {
   .contact-us__heading {
-    flex-direction: column-reverse;
-    gap: 30px;
+    gap: 16px;
   }
   .contact-us__logo {
-    width: 104px;
-    margin: 0;
+    width: 72px;
   }
   .contact-us__columns {
     grid-template-columns: 1fr;
-    gap: 32px;
   }
-  .contact-us__group {
-    padding-top: 28px;
-    border-top: 1px solid #ffffff26;
-  }
-  .contact-us__link {
-    min-height: 78px;
+  .contact-us__details {
+    padding-top: 20px;
+    border-top: 1px solid #dcded4;
   }
 }
 </style>

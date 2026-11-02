@@ -1,25 +1,23 @@
 <template>
   <section id="about" class="section kato-about" aria-labelledby="about-title">
     <div class="kato-about__art" v-reveal>
-      <div class="kato-about__frame">
+      <img
+        src="/assets/image-for-about.png"
+        alt="Pilihan kantong dan kemasan KATO untuk kebutuhan rumah tangga dan usaha"
+        class="kato-about__photo"
+        width="2221"
+        height="2054"
+        loading="lazy"
+      />
+      <span class="kato-about__logo">
         <img
-          src="/assets/Sunlit-Eco-Household-Still-Life-overlay.png"
-          alt="Pilihan kantong dan kemasan KATO untuk kebutuhan rumah tangga dan usaha"
-          class="kato-about__photo"
-          width="2080"
-          height="1042"
+          src="/assets/Logo-KATO1.svg"
+          alt="KATO"
+          width="1080"
+          height="1080"
           loading="lazy"
         />
-        <span class="kato-about__logo">
-          <img
-            src="/assets/Logo-KATO1.svg"
-            alt="KATO"
-            width="1080"
-            height="1080"
-            loading="lazy"
-          />
-        </span>
-      </div>
+      </span>
     </div>
     <div class="kato-about__copy" v-reveal>
       <h2 id="about-title" class="kato-about__title">About Us</h2>
@@ -55,42 +53,17 @@
 }
 
 .kato-about__art {
-  --about-cut: clamp(48px, 5.5vw, 80px);
-  --about-offset: 10px;
-  --about-shape: polygon(
-    0 0,
-    calc(100% - var(--about-cut)) 0,
-    100% var(--about-cut),
-    100% 100%,
-    var(--about-cut) 100%,
-    0 calc(100% - var(--about-cut))
-  );
   position: relative;
-  isolation: isolate;
+  min-width: 0;
   aspect-ratio: 1 / 1;
-  filter: drop-shadow(0 12px 16px #081e321c) drop-shadow(0 3px 5px #081e3212);
-}
-
-.kato-about__art::before {
-  content: "";
-  position: absolute;
-  inset: var(--about-offset) 0 0 var(--about-offset);
-  border-radius: 14px;
-  background: #d8a039;
-  clip-path: var(--about-shape);
-  pointer-events: none;
-}
-
-.kato-about__frame {
-  position: absolute;
-  inset: 0 var(--about-offset) var(--about-offset) 0;
   overflow: hidden;
-  border-radius: 14px;
+  border-radius: 8px 24% 8px 24%;
   background: #e9e6dd;
-  clip-path: var(--about-shape);
 }
 
 .kato-about__photo {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
@@ -100,9 +73,9 @@
 
 .kato-about__logo {
   position: absolute;
-  top: clamp(22px, 2.5vw, 36px);
-  left: clamp(22px, 2.5vw, 36px);
-  width: clamp(104px, 11vw, 140px);
+  top: clamp(20px, 2.5vw, 32px);
+  left: clamp(20px, 2.5vw, 32px);
+  width: clamp(104px, 11vw, 136px);
   aspect-ratio: 840 / 220;
   overflow: hidden;
 }
@@ -164,19 +137,12 @@
   }
 
   .kato-about__art {
-    --about-cut: clamp(40px, 10vw, 56px);
-    --about-offset: 7px;
     aspect-ratio: 4 / 3;
   }
 
-  .kato-about__art::before,
-  .kato-about__frame {
-    border-radius: 10px;
-  }
-
   .kato-about__logo {
-    top: 20px;
-    left: 20px;
+    top: 16px;
+    left: 16px;
     width: 104px;
   }
 

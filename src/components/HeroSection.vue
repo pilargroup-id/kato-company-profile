@@ -1,74 +1,24 @@
 <script setup>
-import { computed, onMounted, onUnmounted, ref, watch } from "vue";
-import { items } from "../data/items";
-
-const GROUP_SIZE = 3;
-const AUTOPLAY_DELAY = 10000;
-const groups = computed(() =>
-  Array.from({ length: Math.ceil(items.length / GROUP_SIZE) }, (_, index) =>
-    items.slice(index * GROUP_SIZE, (index + 1) * GROUP_SIZE),
-  ),
-);
-const activeGroup = ref(0);
-const currentCards = computed(() => groups.value[activeGroup.value] || []);
-const direction = ref(1);
-const isPaused = ref(false);
-const isHovered = ref(false);
-const isFocused = ref(false);
-const prefersReducedMotion = ref(false);
-const isPageVisible = ref(false);
-const canAutoplay = computed(() =>
-  groups.value.length > 1 && isPageVisible.value && !isPaused.value &&
-  !isHovered.value && !isFocused.value && !prefersReducedMotion.value,
-);
-const formatNumber = (number) => String(number).padStart(2, "0");
-let autoplayTimer = null;
-let motionPreference = null;
-
-const goTo = (index) => {
-  const count = groups.value.length;
-  if (count < 2) return;
-  direction.value = index >= activeGroup.value ? 1 : -1;
-  activeGroup.value = ((index % count) + count) % count;
-};
-
-const stopAutoplay = () => {
-  if (autoplayTimer !== null) clearInterval(autoplayTimer);
-  autoplayTimer = null;
-};
-
-const syncAutoplay = () => {
-  stopAutoplay();
-  if (canAutoplay.value) {
-    autoplayTimer = setInterval(() => goTo(activeGroup.value + 1), AUTOPLAY_DELAY);
-  }
-};
-
-const onFocusOut = (event) => {
-  isFocused.value = event.currentTarget.contains(event.relatedTarget);
-};
-const onVisibilityChange = () => {
-  isPageVisible.value = document.visibilityState === "visible";
-};
-const onMotionChange = (event) => {
-  prefersReducedMotion.value = event.matches;
-};
-
-watch([canAutoplay, activeGroup], syncAutoplay);
-
-onMounted(() => {
-  motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
-  prefersReducedMotion.value = motionPreference.matches;
-  motionPreference.addEventListener("change", onMotionChange);
-  document.addEventListener("visibilitychange", onVisibilityChange);
-  onVisibilityChange();
-});
-
-onUnmounted(() => {
-  stopAutoplay();
-  motionPreference?.removeEventListener("change", onMotionChange);
-  document.removeEventListener("visibilitychange", onVisibilityChange);
-});
+const heroImages = [
+  {
+    src: "/assets/main-image-1.jpg",
+    alt: "Kantong sampah hitam untuk kebersihan rumah dan usaha",
+    width: 1080,
+    height: 1920,
+  },
+  {
+    src: "/assets/main-image-2.jpg",
+    alt: "Kantong bening berisi sayuran dan buah segar",
+    width: 1080,
+    height: 1080,
+  },
+  {
+    src: "/assets/main-image-3.jpg",
+    alt: "Kantong belanja hitam berisi sayuran segar",
+    width: 1080,
+    height: 1080,
+  },
+];
 </script>
 
 <template>
@@ -109,113 +59,33 @@ onUnmounted(() => {
         </div>
       </div>
 
-      <div
-        v-if="currentCards.length"
-        class="kato-hero__showcase"
-        role="region"
-        aria-roledescription="carousel"
-        aria-label="Pilihan produk KATO"
-        @mouseenter="isHovered = true"
-        @mouseleave="isHovered = false"
-        @focusin="isFocused = true"
-        @focusout="onFocusOut"
-      >
+      <div class="kato-hero__showcase">
         <div class="kato-hero__showcase-heading">
           <span>KENALI PILIHAN KATO</span>
-          <span class="kato-hero__counter" aria-hidden="true">
-            {{ formatNumber(activeGroup + 1) }}
-            <span>/ {{ formatNumber(groups.length) }}</span>
-          </span>
         </div>
-        <div
-          id="hero-carousel"
-          class="kato-hero__collage"
-          :style="{ '--slide-direction': direction }"
-          :aria-live="canAutoplay ? 'off' : 'polite'"
-          aria-atomic="true"
-        >
-          <Transition name="hero-collage">
-            <div
-              :key="activeGroup"
-              class="kato-hero__collage-panel"
-              role="group"
-              aria-roledescription="slide"
-              :aria-label="`Koleksi ${activeGroup + 1} dari ${groups.length}`"
+        <div class="kato-hero__collage">
+          <div class="kato-hero__collage-panel">
+            <figure
+              v-for="(image, index) in heroImages"
+              :key="image.src"
+              class="kato-hero__card"
+              :class="{ 'kato-hero__card--main': index === 0 }"
             >
-              <figure
-                v-for="(product, index) in currentCards"
-                :key="product.name"
-                class="kato-hero__card"
-                :class="{ 'kato-hero__card--main': index === 0 }"
-                :style="{ '--card-delay': `${index * 60}ms` }"
-              >
-                <img
-                  :src="product.image"
-                  :alt="product.name"
-                  width="900"
-                  height="575"
-                  :fetchpriority="activeGroup === 0 && index === 0 ? 'high' : 'auto'"
-                  class="kato-hero__card-image"
-                  :style="{ objectPosition: product.heroImagePosition || 'center' }"
-                />
-                <figcaption class="kato-hero__card-caption">
-                  <span>{{ product.material }}</span>
-                  <h2>{{ product.name }}</h2>
-                </figcaption>
-              </figure>
-            </div>
-          </Transition>
-        </div>
-        <div v-if="groups.length > 1" class="kato-hero__carousel-controls">
-          <button
-            type="button"
-            class="kato-hero__carousel-arrow"
-            aria-label="Koleksi produk sebelumnya"
-            aria-controls="hero-carousel"
-            @click="goTo(activeGroup - 1)"
-          >
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M19 12H5m6-6-6 6 6 6" />
-            </svg>
-          </button>
-          <div class="kato-hero__carousel-dots" role="group" aria-label="Pilih koleksi produk">
-            <button
-              v-for="(_, index) in groups"
-              :key="index"
-              type="button"
-              class="kato-hero__carousel-dot"
-              :class="{ 'is-active': index === activeGroup }"
-              :aria-label="`Tampilkan koleksi ${index + 1}`"
-              :aria-pressed="index === activeGroup"
-              aria-controls="hero-carousel"
-              @click="goTo(index)"
-            ><span></span></button>
+              <img
+                :src="image.src"
+                :alt="image.alt"
+                :width="image.width"
+                :height="image.height"
+                :fetchpriority="index === 0 ? 'high' : 'auto'"
+                class="kato-hero__card-image"
+              />
+              <span class="kato-hero__card-brand" aria-hidden="true">
+                <span class="kato-hero__logo">
+                  <img src="/assets/Logo-KATO1.svg" alt="" width="1080" height="1080" />
+                </span>
+              </span>
+            </figure>
           </div>
-          <button
-            type="button"
-            class="kato-hero__carousel-arrow"
-            aria-label="Koleksi produk berikutnya"
-            aria-controls="hero-carousel"
-            @click="goTo(activeGroup + 1)"
-          >
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M5 12h14m-6-6 6 6-6 6" />
-            </svg>
-          </button>
-          <button
-            v-if="!prefersReducedMotion"
-            type="button"
-            class="kato-hero__carousel-pause"
-            :aria-label="isPaused ? 'Lanjutkan pergantian otomatis' : 'Jeda pergantian otomatis'"
-            :aria-pressed="isPaused"
-            aria-controls="hero-carousel"
-            @click="isPaused = !isPaused"
-          >
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path v-if="isPaused" d="m9 5 10 7-10 7V5Z" />
-              <path v-else d="M9 5v14M15 5v14" />
-            </svg>
-          </button>
         </div>
       </div>
     </div>
@@ -236,6 +106,8 @@ onUnmounted(() => {
   --hero-ink: #081e32;
   --hero-muted: #5e6b72;
   --hero-line: #dadeda;
+  --hero-gold: #faa719;
+  --hero-gold-light: #f3dfb0;
   padding: 88px max(5.5%, calc((100vw - 1400px) / 2)) 0;
   color: var(--hero-ink);
   background: #fafaf7;
@@ -264,7 +136,7 @@ onUnmounted(() => {
   width: 26px;
   height: 2px;
   flex-shrink: 0;
-  background: #b38332;
+  background: var(--hero-gold);
   content: "";
 }
 .kato-hero__title {
@@ -276,8 +148,7 @@ onUnmounted(() => {
   letter-spacing: -2.5px;
 }
 .kato-hero__title > span:last-child {
-  color: #faa719;
-  text-shadow: 0 2px 4px #081e3229;
+  color: var(--hero-gold);
 }
 .kato-hero__title-line {
   display: flex;
@@ -386,38 +257,32 @@ onUnmounted(() => {
   font-weight: 600;
   letter-spacing: 1.5px;
 }
-.kato-hero__counter {
-  flex-shrink: 0;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 1px;
-}
-.kato-hero__counter > span {
-  margin-left: 4px;
-  color: var(--hero-muted);
-}
 .kato-hero__collage {
   position: relative;
   isolation: isolate;
-  aspect-ratio: 1.12;
 }
 .kato-hero__collage::before {
   position: absolute;
   z-index: -1;
-  inset: -3% 32% -3% 42%;
-  background: #d8a039;
-  transform: skew(-12deg);
+  inset: -4% 34% -4% 43%;
+  border-radius: 24px;
+  background: var(--hero-gold);
+  transform: skew(-10deg);
+  pointer-events: none;
   content: "";
 }
 .kato-hero__collage-panel {
-  position: absolute;
-  inset: 0;
   display: grid;
-  grid-template-columns: 1.08fr 1fr;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
   grid-template-rows: repeat(2, minmax(0, 1fr));
   gap: 14px;
+  animation: hero-collage-reveal 850ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 .kato-hero__card {
+  --card-lift: -7px;
+  --card-tilt: -0.45deg;
   position: relative;
+  aspect-ratio: 1;
   min-width: 0;
   min-height: 0;
   margin: 0;
@@ -426,102 +291,100 @@ onUnmounted(() => {
   border-radius: 14px;
   background: #e9e6dd;
   box-shadow: 0 12px 28px #081e3224, 0 3px 8px #081e3214;
+  animation: hero-card-float 8s ease-in-out infinite;
+  transition: border-color 300ms ease, box-shadow 300ms ease;
+}
+.kato-hero__card:nth-child(2) {
+  --card-lift: -10px;
+  --card-tilt: 0.8deg;
+  animation-duration: 7s;
+  animation-delay: -2s;
+}
+.kato-hero__card:nth-child(3) {
+  --card-lift: -6px;
+  --card-tilt: -0.7deg;
+  animation-duration: 7.6s;
+  animation-delay: -4s;
 }
 .kato-hero__card--main {
+  aspect-ratio: auto;
   grid-column: 1;
   grid-row: 1 / span 2;
 }
+.kato-hero__card::after {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgb(20 79 140 / 24%),
+    rgb(20 79 140 / 8%) 55%,
+    rgb(8 43 80 / 16%)
+  );
+  pointer-events: none;
+  content: "";
+}
+.kato-hero__card-brand {
+  position: absolute;
+  z-index: 2;
+  top: clamp(10px, 1.2vw, 18px);
+  left: clamp(10px, 1.2vw, 18px);
+  width: clamp(68px, 6.6vw, 98px);
+  max-width: calc(100% - 20px);
+  padding: clamp(7px, 0.65vw, 10px);
+  border: 1px solid #ffffff99;
+  border-radius: 6px;
+  background: #ffffffeb;
+  box-shadow: 0 3px 12px #081e3214;
+  pointer-events: none;
+  user-select: none;
+}
+.kato-hero__card-brand .kato-hero__logo {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3.5;
+}
 .kato-hero__card-image {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
+  transition: transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-.kato-hero__card-caption {
-  position: absolute;
-  /* Keep captions above the packaging labels in the lower part of each photo. */
-  inset: 0 0 auto;
-  padding: 14px 16px 32px;
-  background: linear-gradient(#081e32e8, transparent);
-  color: #fff;
+@media (hover: hover) and (pointer: fine) {
+  .kato-hero__collage:hover .kato-hero__card {
+    animation-play-state: paused;
+  }
+  .kato-hero__card:hover {
+    border-color: var(--hero-gold-light);
+    box-shadow: 0 18px 36px #081e3229, 0 4px 12px #96601c1a;
+  }
+  .kato-hero__card:hover .kato-hero__card-image {
+    transform: scale(1.045);
+  }
 }
-.kato-hero__card-caption > span {
-  font-size: 9px;
-  line-height: 1.5;
-  letter-spacing: 0.8px;
+@keyframes hero-collage-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-.kato-hero__card-caption h2 {
-  margin: 3px 0 0;
-  font-family: "Outfit", sans-serif;
-  font-size: clamp(12px, 1.1vw, 17px);
-  font-weight: 600;
-  line-height: 1.3;
-  letter-spacing: 0.3px;
+@keyframes hero-card-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+  50% {
+    transform: translateY(var(--card-lift)) rotate(var(--card-tilt));
+  }
 }
-.kato-hero__card--main .kato-hero__card-caption {
-  padding: 20px 20px 48px;
-}
-.kato-hero__card--main h2 {
-  font-size: clamp(16px, 1.6vw, 24px);
-}
-.kato-hero__carousel-controls {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 20px;
-  padding-inline: 44px;
-}
-.kato-hero__carousel-arrow,
-.kato-hero__carousel-pause,
-.kato-hero__carousel-dot {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 44px;
-  flex-shrink: 0;
-  padding: 0;
-  background: transparent;
-  color: var(--hero-ink);
-  cursor: pointer;
-}
-.kato-hero__carousel-arrow {
-  width: 44px;
-  border: 1px solid var(--hero-line);
-  border-radius: 50%;
-  transition: background 180ms ease, border-color 180ms ease;
-}
-.kato-hero__carousel-arrow:hover {
-  border-color: #a5afab;
-  background: #eef0ea;
-}
-.kato-hero__carousel-dots { display: flex; }
-.kato-hero__carousel-dot {
-  width: 28px;
-  border: 0;
-}
-.kato-hero__carousel-dot > span {
-  width: 6px;
-  height: 6px;
-  border-radius: 8px;
-  background: #abb5ae;
-  transition: width 250ms ease, background 250ms ease;
-}
-.kato-hero__carousel-dot.is-active > span {
-  width: 18px;
-  background: #a47020;
-}
-.kato-hero__carousel-pause {
-  position: absolute;
-  right: 0;
-  width: 44px;
-  border: 0;
-  border-radius: 50%;
-  color: var(--hero-muted);
-}
-.kato-hero__carousel-pause:hover { background: #eef0ea; }
 .kato-hero__footer {
   display: flex;
   align-items: center;
@@ -542,8 +405,7 @@ onUnmounted(() => {
   min-height: 28px;
   color: var(--hero-ink);
 }
-.kato-hero a:focus-visible,
-.kato-hero button:focus-visible {
+.kato-hero a:focus-visible {
   outline: 2px solid #0e8e82;
   outline-offset: 5px;
 }
@@ -556,30 +418,6 @@ onUnmounted(() => {
   clip-path: inset(50%);
   white-space: nowrap;
 }
-.hero-collage-enter-active {
-  transition: opacity 400ms ease, transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-.hero-collage-leave-active {
-  transition: opacity 300ms ease, transform 400ms ease;
-  pointer-events: none;
-}
-.hero-collage-enter-from {
-  opacity: 0;
-  transform: translateX(calc(var(--slide-direction) * 26px));
-}
-.hero-collage-leave-to {
-  opacity: 0;
-  transform: translateX(calc(var(--slide-direction) * -26px));
-}
-.hero-collage-enter-active .kato-hero__card {
-  animation: hero-card-in 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-delay: var(--card-delay);
-}
-@keyframes hero-card-in {
-  from { opacity: 0; transform: translateY(18px) scale(0.98); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
 @media (min-width: 761px) and (max-width: 1100px) {
   .kato-hero__layout {
     gap: 34px;
@@ -627,10 +465,6 @@ onUnmounted(() => {
   }
   .kato-hero__collage-panel { gap: 10px; }
   .kato-hero__card { border-width: 3px; border-radius: 12px; }
-  .kato-hero__card-caption { padding: 10px 10px 28px; }
-  .kato-hero__card-caption h2 { font-size: 12px; }
-  .kato-hero__card--main .kato-hero__card-caption { padding: 14px 12px 36px; }
-  .kato-hero__card--main h2 { font-size: 17px; }
   .kato-hero__footer { min-height: 60px; }
   .kato-hero__footer > span { display: none; }
   .kato-hero__footer a {
@@ -649,10 +483,17 @@ onUnmounted(() => {
   .kato-hero__details p > span { padding-inline: 4px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero-collage-enter-active,
-  .hero-collage-leave-active { transition: none; }
-  .hero-collage-enter-active .kato-hero__card { animation: none; }
-  .hero-collage-enter-from,
-  .hero-collage-leave-to { transform: none; }
+  .kato-hero__collage-panel,
+  .kato-hero__card {
+    animation: none;
+    transform: none;
+  }
+  .kato-hero__card,
+  .kato-hero__card-image {
+    transition: none;
+  }
+  .kato-hero__card:hover .kato-hero__card-image {
+    transform: none;
+  }
 }
 </style>

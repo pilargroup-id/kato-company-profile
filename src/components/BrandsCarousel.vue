@@ -126,7 +126,6 @@ onUnmounted(() => {
   <section id="brands" class="section brands-section" aria-labelledby="brands-title">
     <div class="brands-heading" v-reveal>
       <div>
-        <p class="brands-eyebrow">PILIHAN PRODUK KAMI</p>
         <h2 id="brands-title" class="brands-title">
           <span>Product</span>
           <!-- <span class="brands-logo">
@@ -248,7 +247,6 @@ onUnmounted(() => {
 
     <div class="shops" v-reveal>
       <div class="shops__heading">
-        <p class="brands-eyebrow">BELANJA LEBIH MUDAH</p>
         <h3 class="shops__title">Official Shop</h3>
       </div>
       <div class="shops__grid">

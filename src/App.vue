@@ -6,6 +6,7 @@ import AboutSection from "./components/AboutSection.vue";
 import BrandsCarousel from "./components/BrandsCarousel.vue";
 import ContactSection from "./components/ContactSection.vue";
 import AppFooter from "./components/AppFooter.vue";
+import FloatingWhatsApp from "./components/FloatingWhatsApp.vue";
 </script>
 
 <template>
@@ -19,5 +20,6 @@ import AppFooter from "./components/AppFooter.vue";
       <ContactSection />
     </main>
     <AppFooter />
+    <FloatingWhatsApp />
   </div>
 </template>
