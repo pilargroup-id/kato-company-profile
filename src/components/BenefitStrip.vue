@@ -153,31 +153,4 @@ const benefits = [
 
   .benefit-text { font-size: 14px; }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .benefit-strip { padding-inline: var(--gutter); }
-  .benefit-viewport { overflow: visible; }
-  .benefit-track {
-    width: auto;
-    animation: none;
-  }
-
-  .benefit-list {
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
-    min-width: 0;
-    row-gap: 12px;
-  }
-
-  .benefit-list[aria-hidden="true"],
-  .benefit-toggle { display: none; }
-
-  .benefit-item {
-    padding: 0;
-    white-space: normal;
-  }
-
-  .benefit-item:last-child .benefit-sep { display: none; }
-}
 </style>
