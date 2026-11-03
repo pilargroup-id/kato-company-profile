@@ -852,60 +852,6 @@ button {
   pointer-events: none;
   user-select: none;
 }
-.footer {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 16px;
-  padding: 50px 5.5%;
-  background: #f6f9f8;
-  border-top: 1px solid #e8efed;
-}
-.footer::before {
-  content: "";
-  position: absolute;
-  top: -180px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 500px;
-  height: 360px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #0e8e8214 0%, transparent 75%);
-  z-index: -1;
-  pointer-events: none;
-}
-.footer-brand {
-  font-size: 27px;
-}
-.footer p,
-.footer > span {
-  font-size: 11px;
-  color: #7b8b92;
-}
-.footer-links {
-  display: flex;
-  gap: 22px;
-  font-size: 12px;
-  font-weight: 700;
-}
-.footer-links a:not(:first-child) {
-  position: relative;
-}
-.footer-links a:not(:first-child)::before {
-  content: "";
-  position: absolute;
-  left: -12px;
-  top: 50%;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: #0e8e82;
-  transform: translateY(-50%);
-}
 .reveal {
   opacity: 0;
   transform: translateY(28px);
@@ -1117,12 +1063,6 @@ button {
   .contact-decor {
     width: clamp(320px, 80vw, 420px);
     bottom: -25px;
-  }
-  .footer {
-    padding: 35px 6%;
-  }
-  .footer p {
-    width: 70%;
   }
 }
 @media (max-width: 390px) {
