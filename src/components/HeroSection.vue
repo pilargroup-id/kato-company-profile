@@ -36,10 +36,6 @@ const heroImages = [
           </span>
           <span>Pantang Jebol!</span>
         </h1>
-        <p class="kato-hero__description">
-          Dari urusan dapur hingga kebutuhan usaha, temukan kantong yang tepat.
-          Pilihan bahan dan ukuran lengkap untuk setiap aktivitas Anda.
-        </p>
         <div class="kato-hero__actions">
           <a href="https://shopee.co.id/katofactory" class="kato-hero__primary">
             Beli Sekarang
