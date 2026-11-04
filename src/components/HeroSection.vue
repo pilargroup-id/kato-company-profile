@@ -188,7 +188,7 @@ const heroImages = [
   align-items: center;
   flex-wrap: wrap;
   gap: 16px 26px;
-  margin-top: 30px;
+  margin-top: 44px;
 }
 .kato-hero__primary,
 .kato-hero__secondary {
